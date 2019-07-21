@@ -3,12 +3,13 @@ class Matrix(object):
         self._rows = []
         self._cols = []
         for row in matrix_string.splitlines():
-            row = [int(x) for x in row.split()]
-            self._rows.append(row)
-            while len(self._cols) != len(row):
-                self._cols.append([])
-            for i, e in enumerate(row):
-                self._cols[i].append(e)
+            self._rows.append([])
+            for icol, x in enumerate(row.split()):
+                intx = int(x)
+                self._rows[-1].append(intx)
+                while len(self._cols) <= icol:
+                    self._cols.append([])
+                self._cols[icol].append(intx)
 
     def row(self, index):
         return self._rows[index - 1]

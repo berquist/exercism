@@ -34,13 +34,13 @@ NUM_TO_DAYS_LINE = (
 def recite(start_verse, end_verse):
     verses = []
     for verse_num in range(start_verse, end_verse + 1):
-        verse = FIRST_LINE.format(NUM_TO_ROMAN[verse_num])
+        verse_parts = [FIRST_LINE.format(NUM_TO_ROMAN[verse_num])]
         for verse_part in range(verse_num, 0, -1):
             if verse_part > 1:
-                verse += NUM_TO_DAYS_LINE[verse_part]
+                verse_parts.append(NUM_TO_DAYS_LINE[verse_part])
             else:
-                verse += NUM_TO_DAYS_LINE[verse_part].format(
-                    "and " if verse_num > 1 else ""
+                verse_parts.append(
+                    NUM_TO_DAYS_LINE[verse_part].format("and " if verse_num > 1 else "")
                 )
-        verses.append(verse)
+        verses.append("".join(verse_parts))
     return verses

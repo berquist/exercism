@@ -16,7 +16,7 @@ NUM_TO_ROMAN = (
 )
 NUM_TO_DAYS_LINE = (
     "",
-    "",
+    "{}a Partridge in a Pear Tree.",
     "two Turtle Doves, ",
     "three French Hens, ",
     "four Calling Birds, ",
@@ -39,9 +39,8 @@ def recite(start_verse, end_verse):
             if verse_part > 1:
                 verse += NUM_TO_DAYS_LINE[verse_part]
             else:
-                if verse_num > 1:
-                    verse += "and a Partridge in a Pear Tree."
-                else:
-                    verse += "a Partridge in a Pear Tree."
+                verse += NUM_TO_DAYS_LINE[verse_part].format(
+                    "and " if verse_num > 1 else ""
+                )
         verses.append(verse)
     return verses

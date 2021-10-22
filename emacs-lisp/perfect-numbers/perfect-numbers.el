@@ -4,6 +4,8 @@
 
 ;;; Code:
 
+(require 'seq)
+
 (defun get-factors (number)
   "Get all the factors of a NUMBER, not including the number itself."
   (seq-filter (lambda (x) (not (null x)))

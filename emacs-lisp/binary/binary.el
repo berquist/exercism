@@ -4,6 +4,8 @@
 
 ;;; Code:
 
+(require 'seq)
+
 (defun to-decimal (binary-string)
   (let ((dec 0)
         (bitchars (reverse (string-to-list binary-string))))

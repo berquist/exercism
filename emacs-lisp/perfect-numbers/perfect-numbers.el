@@ -8,10 +8,11 @@
 
 (defun get-factors (number)
   "Get all the factors of a NUMBER, not including the number itself."
-  (seq-filter (lambda (x) (not (null x)))
-              (mapcar
-               (lambda (candidate) (if (= (mod number candidate) 0) candidate))
-               (number-sequence 1 (/ number 2)))))
+  (let ((factors '()))
+    (dolist (candidate (number-sequence 1 (/ number 2)))
+      (if (= (mod number candidate) 0)
+          (setq factors (cons candidate factors))))
+    factors))
 
 (defun sum (nums)
   (apply '+ nums))

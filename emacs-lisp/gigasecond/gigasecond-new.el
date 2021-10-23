@@ -16,7 +16,10 @@
     (reverse ret)))
 
 (defun from (second minute hour day month year)
-  (take 6 (decode-time (encode-time (+ second 1000000000) minute hour day month year))))
+  (let* ((encoded-time
+          (encode-time (list (+ second 1000000000) minute hour day month year "ignored" nil nil)))
+         (decoded-time (decode-time encoded-time)))
+    (take 6 decoded-time)))
 
 (provide 'gigasecond)
 ;;; gigasecond.el ends here

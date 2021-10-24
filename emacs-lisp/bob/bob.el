@@ -21,7 +21,7 @@
   (string= (replace-regexp-in-string "[[:digit:][:punct:][:space:]]" "" prompt-string) ""))
 
 (defun response-for (prompt)
-  (let ((cleaned-prompt (string-trim prompt)))
+  (let ((cleaned-prompt (replace-regexp-in-string "[[:space:]]" "" prompt)))
     (cond
      ((is-silence cleaned-prompt) "Fine. Be that way!")
      ((and (is-question cleaned-prompt) (is-numeric cleaned-prompt)) "Sure.")

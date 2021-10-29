@@ -7,6 +7,15 @@
 (require 'cl-seq)
 (require 'seq)
 
+(defun seq-contains-p (sequence elt)
+  "Return non-nil if SEQUENCE contains an element equal to ELT.
+Equality is defined by TESTFN if non-nil or by `equal' if nil."
+    (catch 'seq--break
+      (seq-doseq (e sequence)
+        (when (funcall #'equal e elt)
+          (throw 'seq--break t)))
+      nil))
+
 (defun seq-all (pred seq)
   "Do all elements of SEQ satisfy PRED?"
   (not (seq-contains-p (mapcar pred seq) nil)))

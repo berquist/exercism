@@ -1,6 +1,10 @@
 import re
 
 
+RE_ITALICS = re.compile('(.*)_(.*)_(.*)')
+RE_BOLD = re.compile('(.*)__(.*)__(.*)')
+
+
 def parse(markdown):
     lines = markdown.split('\n')
     res = ''
@@ -20,12 +24,12 @@ def parse(markdown):
                 is_bold = False
                 is_italic = False
                 curr = m.group(1)
-                m1 = re.match('(.*)__(.*)__(.*)', curr)
+                m1 = RE_BOLD.match(curr)
                 if m1:
                     curr = m1.group(1) + '<strong>' + \
                         m1.group(2) + '</strong>' + m1.group(3)
                     is_bold = True
-                m1 = re.match('(.*)_(.*)_(.*)', curr)
+                m1 = RE_ITALICS.match(curr)
                 if m1:
                     curr = m1.group(1) + '<em>' + m1.group(2) + \
                         '</em>' + m1.group(3)
@@ -35,10 +39,10 @@ def parse(markdown):
                 is_bold = False
                 is_italic = False
                 curr = m.group(1)
-                m1 = re.match('(.*)__(.*)__(.*)', curr)
+                m1 = RE_BOLD.match(curr)
                 if m1:
                     is_bold = True
-                m1 = re.match('(.*)_(.*)_(.*)', curr)
+                m1 = RE_ITALICS.match(curr)
                 if m1:
                     is_italic = True
                 if is_bold:
@@ -56,10 +60,10 @@ def parse(markdown):
         m = re.match('<h|<ul|<p|<li', i)
         if not m:
             i = '<p>' + i + '</p>'
-        m = re.match('(.*)__(.*)__(.*)', i)
+        m = RE_BOLD.match(i)
         if m:
             i = m.group(1) + '<strong>' + m.group(2) + '</strong>' + m.group(3)
-        m = re.match('(.*)_(.*)_(.*)', i)
+        m = RE_ITALICS.match(i)
         if m:
             i = m.group(1) + '<em>' + m.group(2) + '</em>' + m.group(3)
         if in_list_append:

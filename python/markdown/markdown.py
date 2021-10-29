@@ -5,21 +5,17 @@ RE_ITALICS = re.compile('(.*)_(.*)_(.*)')
 RE_BOLD = re.compile('(.*)__(.*)__(.*)')
 
 
-def wrap_em(m) -> str:
-    return m.group(1) + '<em>' + m.group(2) + '</em>' + m.group(3)
-
-
-def wrap_strong(m) -> str:
-    return m.group(1) + '<strong>' + m.group(2) + '</strong>' + m.group(3)
+def wrap_tag(m: re.Match, tag: str) -> str:
+    return m.group(1) + f'<{tag}>' + m.group(2) + f'</{tag}>' + m.group(3)
 
 
 def wrap_bold_italics(s: str) -> str:
     m = RE_BOLD.match(s)
     if m:
-        s = wrap_strong(m)
+        s = wrap_tag(m, "strong")
     m = RE_ITALICS.match(s)
     if m:
-        s = wrap_em(m)
+        s = wrap_tag(m, "em")
     return s
 
 

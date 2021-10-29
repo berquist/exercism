@@ -25,7 +25,7 @@ def wrap_bold_italics(s: str) -> str:
 
 def parse(markdown: str) -> str:
     lines = markdown.split('\n')
-    res = ''
+    res = []
     in_list = False
     in_list_append = False
     for i in lines:
@@ -57,7 +57,7 @@ def parse(markdown: str) -> str:
         if in_list_append:
             i = '</ul>' + i
             in_list_append = False
-        res += i
+        res.append(i)
     if in_list:
-        res += '</ul>'
-    return res
+        res.append('</ul>')
+    return "".join(res)

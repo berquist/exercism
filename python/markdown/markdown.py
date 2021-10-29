@@ -27,11 +27,11 @@ def parse(markdown: str) -> str:
             i = '<h1>' + i[2:] + '</h1>'
         m = re.match(r'\* (.*)', i)
         if m:
+            is_bold = False
+            is_italic = False
+            curr = m.group(1)
             if not in_list:
                 in_list = True
-                is_bold = False
-                is_italic = False
-                curr = m.group(1)
                 m1 = RE_BOLD.match(curr)
                 if m1:
                     curr = make_strong(m1)
@@ -42,9 +42,6 @@ def parse(markdown: str) -> str:
                     is_italic = True
                 i = '<ul><li>' + curr + '</li>'
             else:
-                is_bold = False
-                is_italic = False
-                curr = m.group(1)
                 m1 = RE_BOLD.match(curr)
                 if m1:
                     is_bold = True

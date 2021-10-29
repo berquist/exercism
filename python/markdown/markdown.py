@@ -5,7 +5,15 @@ RE_ITALICS = re.compile('(.*)_(.*)_(.*)')
 RE_BOLD = re.compile('(.*)__(.*)__(.*)')
 
 
-def parse(markdown):
+def make_em(m1) -> str:
+    return m1.group(1) + '<em>' + m1.group(2) + '</em>' + m1.group(3)
+
+
+def make_strong(m1) -> str:
+    return m1.group(1) + '<strong>' + m1.group(2) + '</strong>' + m1.group(3)
+
+
+def parse(markdown: str) -> str:
     lines = markdown.split('\n')
     res = ''
     in_list = False
@@ -26,13 +34,11 @@ def parse(markdown):
                 curr = m.group(1)
                 m1 = RE_BOLD.match(curr)
                 if m1:
-                    curr = m1.group(1) + '<strong>' + \
-                        m1.group(2) + '</strong>' + m1.group(3)
+                    curr = make_strong(m1)
                     is_bold = True
                 m1 = RE_ITALICS.match(curr)
                 if m1:
-                    curr = m1.group(1) + '<em>' + m1.group(2) + \
-                        '</em>' + m1.group(3)
+                    curr = make_em(m1)
                     is_italic = True
                 i = '<ul><li>' + curr + '</li>'
             else:
@@ -46,11 +52,9 @@ def parse(markdown):
                 if m1:
                     is_italic = True
                 if is_bold:
-                    curr = m1.group(1) + '<strong>' + \
-                        m1.group(2) + '</strong>' + m1.group(3)
+                    curr = make_strong(m1)
                 if is_italic:
-                    curr = m1.group(1) + '<em>' + m1.group(2) + \
-                        '</em>' + m1.group(3)
+                    curr = make_em(m1)
                 i = '<li>' + curr + '</li>'
         else:
             if in_list:
@@ -62,10 +66,10 @@ def parse(markdown):
             i = '<p>' + i + '</p>'
         m = RE_BOLD.match(i)
         if m:
-            i = m.group(1) + '<strong>' + m.group(2) + '</strong>' + m.group(3)
+            i = make_strong(m)
         m = RE_ITALICS.match(i)
         if m:
-            i = m.group(1) + '<em>' + m.group(2) + '</em>' + m.group(3)
+            i = make_em(m)
         if in_list_append:
             i = '</ul>' + i
             in_list_append = False

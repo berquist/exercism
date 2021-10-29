@@ -5,12 +5,22 @@ RE_ITALICS = re.compile('(.*)_(.*)_(.*)')
 RE_BOLD = re.compile('(.*)__(.*)__(.*)')
 
 
-def make_em(m1) -> str:
-    return m1.group(1) + '<em>' + m1.group(2) + '</em>' + m1.group(3)
+def wrap_em(m) -> str:
+    return m.group(1) + '<em>' + m.group(2) + '</em>' + m.group(3)
 
 
-def make_strong(m1) -> str:
-    return m1.group(1) + '<strong>' + m1.group(2) + '</strong>' + m1.group(3)
+def wrap_strong(m) -> str:
+    return m.group(1) + '<strong>' + m.group(2) + '</strong>' + m.group(3)
+
+
+def wrap_bold_italics(s: str) -> str:
+    m = RE_BOLD.match(s)
+    if m:
+        s = wrap_strong(m)
+    m = RE_ITALICS.match(s)
+    if m:
+        s = wrap_em(m)
+    return s
 
 
 def parse(markdown: str) -> str:
@@ -30,20 +40,10 @@ def parse(markdown: str) -> str:
             curr = m.group(1)
             if not in_list:
                 in_list = True
-                m1 = RE_BOLD.match(curr)
-                if m1:
-                    curr = make_strong(m1)
-                m1 = RE_ITALICS.match(curr)
-                if m1:
-                    curr = make_em(m1)
+                curr = wrap_bold_italics(curr)
                 i = '<ul><li>' + curr + '</li>'
             else:
-                m1 = RE_BOLD.match(curr)
-                if m1:
-                    curr = make_strong(m1)
-                m1 = RE_ITALICS.match(curr)
-                if m1:
-                    curr = make_em(m1)
+                curr = wrap_bold_italics(curr)
                 i = '<li>' + curr + '</li>'
         else:
             if in_list:
@@ -53,12 +53,7 @@ def parse(markdown: str) -> str:
         m = re.match('<h|<ul|<p|<li', i)
         if not m:
             i = '<p>' + i + '</p>'
-        m = RE_BOLD.match(i)
-        if m:
-            i = make_strong(m)
-        m = RE_ITALICS.match(i)
-        if m:
-            i = make_em(m)
+        i = wrap_bold_italics(i)
         if in_list_append:
             i = '</ul>' + i
             in_list_append = False

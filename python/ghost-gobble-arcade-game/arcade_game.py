@@ -1,5 +1,8 @@
+"""Define the rules that make up the game Pac-Man."""
+
+
 def eat_ghost(power_pellet_active: bool, touching_ghost: bool) -> bool:
-    """
+    """Is Pac-Man able to eat a ghost?
 
     :param power_pellet_active: bool - does the player have an active power pellet?
     :param touching_ghost:  bool - is the player touching a ghost?
@@ -9,7 +12,7 @@ def eat_ghost(power_pellet_active: bool, touching_ghost: bool) -> bool:
 
 
 def score(touching_power_pellet: bool, touching_dot: bool) -> bool:
-    """
+    """Has Pac-Man scored?
 
     :param touching_power_pellet: bool - does the player have an active power pellet?
     :param touching_dot:  bool - is the player touching a dot?
@@ -19,7 +22,7 @@ def score(touching_power_pellet: bool, touching_dot: bool) -> bool:
 
 
 def lose(power_pellet_active: bool, touching_ghost: bool) -> bool:
-    """
+    """Will Pac-Man lose?
 
     :param power_pellet_active: bool - does the player have an active power pellet?
     :param touching_ghost: bool - is the player touching a ghost?
@@ -29,7 +32,7 @@ def lose(power_pellet_active: bool, touching_ghost: bool) -> bool:
 
 
 def win(has_eaten_all_dots: bool, power_pellet_active: bool, touching_ghost: bool) -> bool:
-    """
+    """Will Pac-Man win?
 
     :param has_eaten_all_dots: bool - has the player "eaten" all the dots?
     :param power_pellet_active: bool - does the player have an active power pellet?

@@ -18,7 +18,7 @@
 (def busy-day 5)
 
 (defn busy-days [birds]
-  (count (filter (fn [x] (true? x)) (map (fn [day] (>= day busy-day)) birds))))
+  (count (filter #(>= % busy-day) birds)))
 
 (defn odd-week? [birds]
   (= birds [1 0 1 0 1 0 1]))

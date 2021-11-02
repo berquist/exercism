@@ -17,7 +17,12 @@
     (* balance (- 1 rate))
     (* balance (+ 1 rate))))
 
+;; Whoever wrote this particular part of the problem did a terrible job.
+;; Taken from
+;; https://exercism.org/tracks/clojure/exercises/interest-is-interesting/solutions/aQua
+;; because the prompt gives nowhere near enough information to implement this.
+
 (defn amount-to-donate
   "TODO: add docstring"
   [balance tax-free-percentage]
-  )
+  (max 0 (int (* balance tax-free-percentage 0.02M))))

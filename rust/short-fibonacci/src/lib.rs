@@ -1,15 +1,13 @@
 /// Create an empty vector
 pub fn create_empty() -> Vec<u8> {
-    Vec::new()
+    create_buffer(0)
 }
 
 /// Create a buffer of `count` zeroes.
 ///
 /// Applications often use buffers when serializing data to send over the network.
 pub fn create_buffer(count: usize) -> Vec<u8> {
-    let mut buf = create_empty();
-    buf.resize(count, 0);
-    buf
+    vec![0u8; count]
 }
 
 /// Create a vector containing the first five elements of the Fibonacci sequence.

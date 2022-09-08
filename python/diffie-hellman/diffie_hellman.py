@@ -1,8 +1,10 @@
-import random
+import secrets
 
 
 def private_key(p: int) -> int:
-    return random.randint(2, p-1)
+    # want (1, p) -> [2, p)
+    # if randbelow provides [0, p), shift up by two to get [2, p+2), then reduce top bound
+    return 2 + secrets.randbelow(p - 2)
 
 
 def public_key(p: int, g: int, private: int) -> int:

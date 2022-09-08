@@ -34,7 +34,7 @@ T = TypeVar("T")
 
 def _contains(candidate_superlist: List[T], candidate_sublist: List[T]) -> bool:
     nsuper, nsub = len(candidate_superlist), len(candidate_sublist)
-    for i in range(nsuper):
+    for i in range(nsuper - nsub + 1):
         if candidate_superlist[i:i+nsub] == candidate_sublist:
             return True
     return False

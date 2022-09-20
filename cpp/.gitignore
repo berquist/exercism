@@ -1,1 +1,5 @@
 .cache/
+*_test.cpp
+build/
+test/
+CMakeLists.txt

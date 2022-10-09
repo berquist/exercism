@@ -19,7 +19,7 @@ This is a simple wrapper around the built-in `split-string'."
   "Split S into list of words."
   (declare (side-effect-free t))
   (s-split
-   "[^[:word:]0-9]+"
+   "[^[:word:]0-9']+"
    (let ((case-fold-search nil))
      (replace-regexp-in-string
       "\\([[:lower:]]\\)\\([[:upper:]]\\)" "\\1 \\2"

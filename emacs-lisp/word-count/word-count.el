@@ -15,17 +15,6 @@ This is a simple wrapper around the built-in `split-string'."
   (save-match-data
     (split-string s separator omit-nulls)))
 
-(defun s-split-words (s)
-  "Split S into list of words."
-  (declare (side-effect-free t))
-  (s-split
-   "[^[:word:]0-9']+"
-   (let ((case-fold-search nil))
-     (replace-regexp-in-string
-      "\\([[:lower:]]\\)\\([[:upper:]]\\)" "\\1 \\2"
-      (replace-regexp-in-string "\\([[:upper:]]\\)\\([[:upper:]][0-9[:lower:]]\\)" "\\1 \\2" s)))
-   t))
-
 ;; This doesn't work because behind the scenes alist-get uses `eq', not `equal'...
 ;;
 ;; (defun make-frequencies (list-of-things)
@@ -80,7 +69,7 @@ Internal helper function."
 
 (defun word-count (string-of-words)
   (if string-of-words
-      (make-frequencies (s-split-words (downcase string-of-words)))))
+      (make-frequencies (s-split "[^[:alnum:]']+" (downcase string-of-words) t))))
 
 (provide 'word-count)
 ;;; word-count.el ends here

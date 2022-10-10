@@ -5,6 +5,8 @@
 ;;; Code:
 
 (load-file "grains.el")
+(declare-function square "grains.el" (n))
+(declare-function total "grains.el")
 
 (ert-deftest square-1 ()
   (should (= 1 (square 1))))

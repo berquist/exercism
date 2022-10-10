@@ -10,7 +10,7 @@
 
 (defun total ()
   "Calculate how many grains there are on the entire chessboard."
-  (1- (square (1+ 64))))
+  (apply '+ (mapcar 'square (number-sequence 1 64))))
 
 (provide 'grains)
 ;;; grains.el ends here

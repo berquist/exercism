@@ -1,0 +1,3 @@
+.cache/
+tests.out
+compile_commands.json

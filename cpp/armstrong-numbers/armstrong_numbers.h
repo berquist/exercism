@@ -1,9 +1,11 @@
 #if !defined(ARMSTRONG_NUMBERS_H)
 #define ARMSTRONG_NUMBERS_H
 
+using number_t = unsigned long long;
+
 namespace armstrong_numbers {
 
-bool is_armstrong_number(const unsigned long long number);
+bool is_armstrong_number(const number_t number);
 
 }  // namespace armstrong_numbers
 

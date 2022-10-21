@@ -4,8 +4,10 @@
 #include <numeric>
 #include <vector>
 
-std::vector<unsigned int> get_digits(unsigned long long number) {
-    std::vector<unsigned int> digits;
+using digit_t = unsigned int;
+
+std::vector<digit_t> get_digits(number_t number) {
+    std::vector<digit_t> digits;
     while (number >= 10) {
         digits.push_back(number % 10);
         number /= 10;
@@ -16,13 +18,13 @@ std::vector<unsigned int> get_digits(unsigned long long number) {
 
 namespace armstrong_numbers {
 
-bool is_armstrong_number(const unsigned long long number) {
+bool is_armstrong_number(const number_t number) {
     auto digits = get_digits(number);
     std::for_each(
         digits.begin(),
         digits.end(),
         [&](auto &digit) { digit = std::pow(digit, digits.size()); });
-    const auto sum = std::accumulate(digits.cbegin(), digits.cend(), static_cast<unsigned long long>(0));
+    const auto sum = std::accumulate(digits.cbegin(), digits.cend(), static_cast<number_t>(0));
     return sum == number;
 }
 

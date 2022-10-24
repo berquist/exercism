@@ -1,6 +1,6 @@
 import sequtils
 
-proc primes*(maxPrime: int): seq[int] =
+func primes*(maxPrime: int): seq[int] =
   if maxPrime < 2:
     return @[]
   var

@@ -12,6 +12,5 @@ func primes*(maxPrime: int): seq[int] =
       marks[i] = true
       i += candidate
   for i in marks.low..marks.high:
-    let mark = marks[i]
-    if not mark:
+    if not marks[i]:
       result.add candidates[i]

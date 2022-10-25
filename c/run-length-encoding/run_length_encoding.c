@@ -54,7 +54,7 @@ char *encode(const char *text) {
             snprintf(&joined[offset], 1 + 1, "%c", chars[i]);
         }
     }
-    joined = realloc(joined, offset * sizeof(char));
+    joined = realloc(joined, (offset + 1) * sizeof(char));
     return joined;
 }
 
@@ -72,8 +72,7 @@ char *decode(const char *data) {
     size_t idata = 0, offset = 0, co = 0;
     char current = data[idata];
     bool done = (current == '\0');
-    const size_t counter_size = MAXNDIG * sizeof(char);
-    char* counter = malloc(counter_size);
+    char* counter = calloc(MAXNDIG, sizeof(char));
     if (counter == NULL) { exit(1); }
     /* https://stackoverflow.com/a/29321286/: The "+1" in all printf calls is
      * for \0. */
@@ -96,13 +95,13 @@ char *decode(const char *data) {
                 snprintf(&joined[offset++], 1 + 1, "%c", current);
             }
             co = 0;
-            memset(counter, '\0', counter_size);
+            memset(counter, '\0', MAXNDIG * sizeof(char));
         }
         idata++;
         current = data[idata];
         done = (current == '\0');
     }
-    joined = realloc(joined, offset * sizeof(char));
+    joined = realloc(joined, (offset + 1) * sizeof(char));
     free(counter);
     return joined;
 }

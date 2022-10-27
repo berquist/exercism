@@ -10,6 +10,26 @@
        (filter #(not= % 1))
        (apply str)))
 
+(defn- ctos
+  "Convert a character to a string."
+  [cs]
+  (Character/toString cs))
+
+(defn- parse-int
+  "Parse an integer or character digit from a string."
+  [s]
+  (try
+    (Integer/parseInt s)
+    (catch ClassCastException _
+      (if (Character/isDigit s)
+        (parse-int (ctos s))
+        false))
+    (catch NumberFormatException _
+      false)))
+
+(defn- is-int [x]
+  (parse-int x))
+
 (defn- form-count [digits]
   (if (empty? digits) 1 (Integer/parseInt (string/join (map str digits)))))
 
@@ -21,11 +41,11 @@
          remaining (rest cipher-text)]
     (cond
     (nil? ch) (string/join acc)
-    (Character/isDigit ch) (recur
-                            acc
-                            (conj digits ch)
-                            (first remaining)
-                            (rest remaining))
+    (is-int ch) (recur
+                 acc
+                 (conj digits ch)
+                 (first remaining)
+                 (rest remaining))
     :else (recur
            (conj acc (string/join (repeat (form-count digits) ch)))
            []

@@ -31,7 +31,7 @@
   (parse-int x))
 
 (defn- form-count [digits]
-  (if (empty? digits) 1 (Integer/parseInt (string/join (map str digits)))))
+  (if (empty? digits) 1 (parse-int (string/join (map str digits)))))
 
 (defn run-length-decode
   [cipher-text]

@@ -10,11 +10,20 @@
        (filter #(not= % 1))
        (apply str)))
 
-(defn is-int [x]
-  (not (js/isNaN (js/parseInt x))))
+(defn- parse-int
+  "Parse an integer or character digit from a string."
+  [s]
+  (let [parsed (js/parseInt s)
+        isnan (js/isNaN parsed)]
+    (if-not isnan
+      parsed
+      false)))
+
+(defn- is-int [x]
+  (parse-int x))
 
 (defn- form-count [digits]
-  (if (empty? digits) 1 (js/parseInt (string/join (map str digits)))))
+  (if (empty? digits) 1 (parse-int (string/join (map str digits)))))
 
 (defn run-length-decode
   [cipher-text]

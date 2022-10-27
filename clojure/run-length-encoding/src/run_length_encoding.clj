@@ -10,21 +10,21 @@
        (filter #(not= % 1))
        (apply str)))
 
-(defn run-length-decode-acc
-  [acc digits ch remaining]
-  (cond
+(defn run-length-decode
+  [cipher-text]
+  (loop [acc []
+         digits []
+         ch (first cipher-text)
+         remaining (rest cipher-text)]
+    (cond
     (nil? ch) (string/join acc)
-    (Character/isDigit ch) (run-length-decode-acc
+    (Character/isDigit ch) (recur
                             acc
                             (conj digits ch)
                             (first remaining)
                             (rest remaining))
-    :else (run-length-decode-acc
+    :else (recur
            (conj acc (string/join (repeat (if (empty? digits) 1 (Integer/parseInt (string/join (map str digits)))) ch)))
            []
            (first remaining)
-           (rest remaining))))
-
-(defn run-length-decode
-  [cipher-text]
-    (run-length-decode-acc [] [] (first cipher-text) (rest cipher-text)))
+           (rest remaining)))))

@@ -27,28 +27,4 @@
 
 (defn run-length-decode
   [cipher-text]
-  (if (empty? cipher-text)
-    ""
-;; (loop [acc []
-;;          digits []
-;;          ch (first cipher-text)
-;;          remaining (rest cipher-text)]
-;;     (if (nil? ch)
-;;       acc
-;;       (if (Character/isDigit ch)
-;;             (recur
-;;              acc
-;;              (conj digits ch)
-;;              (first remaining)
-;;              (rest remaining))
-;;             (recur
-;;              (conj acc (string/join (repeat (Integer/parseInt (string/join (map str digits))) ch)))
-;;              []
-;;              (first remaining)
-;;              (rest remaining)))
-
-    ;;       ))
-    (run-length-decode-acc [] [] (first cipher-text) (rest cipher-text))
-)
-  
-)
+    (run-length-decode-acc [] [] (first cipher-text) (rest cipher-text)))

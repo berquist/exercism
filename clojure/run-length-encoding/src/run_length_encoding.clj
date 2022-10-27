@@ -10,6 +10,9 @@
        (filter #(not= % 1))
        (apply str)))
 
+(defn- form-count [digits]
+  (if (empty? digits) 1 (Integer/parseInt (string/join (map str digits)))))
+
 (defn run-length-decode
   [cipher-text]
   (loop [acc []
@@ -24,7 +27,7 @@
                             (first remaining)
                             (rest remaining))
     :else (recur
-           (conj acc (string/join (repeat (if (empty? digits) 1 (Integer/parseInt (string/join (map str digits)))) ch)))
+           (conj acc (string/join (repeat (form-count digits) ch)))
            []
            (first remaining)
            (rest remaining)))))

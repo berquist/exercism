@@ -9,16 +9,14 @@ def _make_below_ten(num: int) -> int:
 
 
 def _scale_every_enth(nums: List[int], scale: int, enth: int) -> List[int]:
-    result = list()
-    counter = 1
-    for idx in range(len(nums), 0, -1):
-        if counter == enth:
-            result.append(nums[idx - 1] * scale)
-            counter = 1
-        else:
-            result.append(nums[idx - 1])
-            counter += 1
-    return list(reversed(result))
+    return list(
+        reversed(
+            [
+                num * ((scale * (not (idx - 1) % enth)) or 1)
+                for idx, num in enumerate(reversed(nums))
+            ]
+        )
+    )
 
 
 class Luhn:

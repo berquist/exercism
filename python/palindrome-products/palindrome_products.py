@@ -1,5 +1,4 @@
 from collections import defaultdict
-from itertools import product
 from typing import Callable, DefaultDict, Iterable, Optional, Set, Tuple
 
 
@@ -17,10 +16,11 @@ def _palindromes_inner(
     *, min_factor: int, max_factor: int
 ) -> DefaultDict[int, Set[Tuple[int, int]]]:
     palindromes = defaultdict(set)
-    for x, y in product(range(min_factor, max_factor + 1), repeat=2):
-        prod = x * y
-        if _is_palindrome(prod):
-            palindromes[prod].add((x, y))
+    for x in range(min_factor, max_factor + 1):
+        for y in range(x, max_factor + 1):
+            prod = x * y
+            if _is_palindrome(prod):
+                palindromes[prod].add((x, y))
     return palindromes
 
 

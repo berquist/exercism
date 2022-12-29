@@ -1,7 +1,6 @@
 from collections import defaultdict
 from itertools import product
-from typing import DefaultDict, Optional, Set, Tuple
-
+from typing import Callable, DefaultDict, Iterable, Optional, Set, Tuple
 
 
 def _validate_inputs(min_factor: int, max_factor: int) -> None:
@@ -16,7 +15,7 @@ def _is_palindrome(num: int) -> bool:
 
 def _palindromes_inner(
     *, min_factor: int, max_factor: int
-) -> DefaultDict[int, Set[Tuple[int]]]:
+) -> DefaultDict[int, Set[Tuple[int, int]]]:
     palindromes = defaultdict(set)
     for x, y in product(range(min_factor, max_factor + 1), repeat=2):
         prod = x * y
@@ -26,11 +25,11 @@ def _palindromes_inner(
 
 
 def _palindromes(
-    *, min_factor: int, max_factor: int, op
+    *, min_factor: int, max_factor: int, op: Callable[[Iterable[int]], int]
 ) -> Tuple[Optional[int], Tuple[Tuple[int, int], ...]]:
     palindromes = _palindromes_inner(min_factor=min_factor, max_factor=max_factor)
     if palindromes:
-        palindrome = op(palindromes)
+        palindrome = op(palindromes.keys())
         products = tuple(palindromes[palindrome])
         return palindrome, products
     return None, ()

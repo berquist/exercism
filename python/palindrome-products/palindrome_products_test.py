@@ -73,3 +73,17 @@ class PalindromeProductsTest(unittest.TestCase):
 
     def assertFactorsEqual(self, actual, expected):
         self.assertEqual(set(map(frozenset, actual)), set(map(frozenset, expected)))
+
+
+# from palindrome_products import _is_palindrome
+
+
+# class PalindromeTest(unittest.TestCase):
+#     def test_is_palindrome(self):
+#         self.assertTrue(_is_palindrome(323))
+#         self.assertTrue(_is_palindrome(3553))
+
+#     def test_is_not_palindrome(self):
+#         self.assertFalse(_is_palindrome(324))
+#         self.assertFalse(_is_palindrome(3554))
+#         self.assertFalse(_is_palindrome(3543))

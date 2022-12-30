@@ -11,11 +11,38 @@ def _is_palindrome(num: int) -> bool:
     num_str = str(num)
     return num_str == num_str[::-1]
 
+# Converting to a string is faster than the following:
+
+# from typing import List
+
+
+# def _get_digits(number: int) -> List[int]:
+#     digits = []
+#     while number >= 10:
+#         digits.append(number % 10)
+#         number //= 10
+#     digits.append(number)
+#     return digits
+
+
+# def _is_palindrome(num: int) -> bool:
+#     digits = _get_digits(num)
+#     left, right = 0, len(digits) - 1
+#     while right > left:
+#         if digits[left] != digits[right]:
+#             return False
+#         left += 1
+#         right -= 1
+#     return True
+
 
 def _palindromes_inner(
     *, min_factor: int, max_factor: int
 ) -> DefaultDict[int, Set[Tuple[int, int]]]:
     palindromes = defaultdict(set)
+    # We need a way to find all palindromes in linear time in the number of
+    # factors.  That means that for each factor it must take a constant amount
+    # of time to generate TODO
     for x in range(min_factor, max_factor + 1):
         for y in range(x, max_factor + 1):
             prod = x * y

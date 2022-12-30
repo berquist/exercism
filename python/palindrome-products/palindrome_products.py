@@ -1,15 +1,10 @@
-from collections import defaultdict
-from typing import Callable, DefaultDict, Iterable, Optional, Set, Tuple
-
-
-def _validate_inputs(min_factor: int, max_factor: int) -> None:
-    if max_factor < min_factor:
-        raise ValueError("min must be <= max")
+from typing import Optional, Tuple
 
 
 def _is_palindrome(num: int) -> bool:
     num_str = str(num)
     return num_str == num_str[::-1]
+
 
 # Converting to a string is faster than the following:
 
@@ -35,30 +30,23 @@ def _is_palindrome(num: int) -> bool:
 #         right -= 1
 #     return True
 
-
-def _palindromes_inner(
-    *, min_factor: int, max_factor: int
-) -> DefaultDict[int, Set[Tuple[int, int]]]:
-    palindromes = defaultdict(set)
-    # We need a way to find all palindromes in linear time in the number of
-    # factors.  That means that for each factor it must take a constant amount
-    # of time to generate TODO
-    for x in range(min_factor, max_factor + 1):
-        for y in range(x, max_factor + 1):
-            prod = x * y
-            if _is_palindrome(prod):
-                palindromes[prod].add((x, y))
-    return palindromes
-
+# ripped from
+# https://exercism.org/tracks/python/exercises/palindrome-products/solutions/ninevoltradish
+# since I could only intuit the quadratic solution
 
 def _palindromes(
-    *, min_factor: int, max_factor: int, op: Callable[[Iterable[int]], int]
+    *, min_factor: int, max_factor: int, checkrange: Tuple[int, int, int]
 ) -> Tuple[Optional[int], Tuple[Tuple[int, int], ...]]:
-    palindromes = _palindromes_inner(min_factor=min_factor, max_factor=max_factor)
-    if palindromes:
-        palindrome = op(palindromes.keys())
-        products = tuple(palindromes[palindrome])
-        return palindrome, products
+    if max_factor < min_factor:
+        raise ValueError("min must be <= max")
+    for num in range(*checkrange):
+        if _is_palindrome(num):
+            prime_factors = list()
+            for i in range(min_factor, max_factor + 1):
+                if num % i == 0 and min_factor <= i <= num // i <= max_factor:
+                    prime_factors.append((i, num // i))
+            if prime_factors != list():
+                return num, tuple(prime_factors)
     return None, ()
 
 
@@ -73,8 +61,11 @@ def largest(
     :return: tuple of (palindrome, iterable).
              Iterable should contain both factors of the palindrome in an arbitrary order.
     """
-    _validate_inputs(min_factor, max_factor)
-    return _palindromes(min_factor=min_factor, max_factor=max_factor, op=max)
+    return _palindromes(
+        min_factor=min_factor,
+        max_factor=max_factor,
+        checkrange=(max_factor**2, min_factor**2 - 1, -1),
+    )
 
 
 def smallest(
@@ -88,5 +79,8 @@ def smallest(
     :return: tuple of (palindrome, iterable).
     Iterable should contain both factors of the palindrome in an arbitrary order.
     """
-    _validate_inputs(min_factor, max_factor)
-    return _palindromes(min_factor=min_factor, max_factor=max_factor, op=min)
+    return _palindromes(
+        min_factor=min_factor,
+        max_factor=max_factor,
+        checkrange=(min_factor**2, max_factor**2 + 1, 1),
+    )

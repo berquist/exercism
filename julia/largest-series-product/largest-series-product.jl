@@ -4,7 +4,7 @@ windows(v::AbstractVector, size::Int) = [v[i:i+size-1] for i in 1:length(v)-size
 function largest_product(str::AbstractString, span::Int)
     if !(0 <= span <= length(str))
         throw(ArgumentError("invalid span"))
-    elseif span == 0
+    elseif iszero(span)
         1
     else
         map(prod, windows(strtoints(str), span)) |> maximum

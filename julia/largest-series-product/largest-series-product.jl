@@ -9,6 +9,6 @@ function largest_product(str::AbstractString, span::Int)
     elseif span == 0
         1
     else
-        last(sort(map(prod, windows(strtoints(str), span))))
+        map(prod, windows(strtoints(str), span)) |> maximum
     end
 end

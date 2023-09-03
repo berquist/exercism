@@ -24,10 +24,15 @@ _scale_every_enth() {
     # shellcheck disable=SC2034
     local -n result="${1}"
     # shellcheck disable=SC2155
-    local digits="$(echo "${2}" | rev)"
+    local digits="${2}"
     local scale="${3}"
     local enth="${4}"
     declare result_unrev
+    local len="${#digits}"
+    local idx=0
+    local rev_digits=""
+    # https://stackoverflow.com/a/34668251/
+    while (( idx<len )); do rev_digits="${digits:idx++:1}${rev_digits}"; done
     # Translation from Python:
     # reversed(
     #     [
@@ -35,8 +40,8 @@ _scale_every_enth() {
     #         for idx, num in enumerate(reversed(nums))
     #     ]
     # )
-    for (( idx=0; idx<${#digits}; idx++ )); do
-        digit="${digits:${idx}:1}"
+    for (( idx=0; idx<len; idx++ )); do
+        digit="${rev_digits:${idx}:1}"
         mod="$(( (idx - 1) % enth ))"
         not="$(( mod == 0 ))"
         scaled="$(( scale * not ))"

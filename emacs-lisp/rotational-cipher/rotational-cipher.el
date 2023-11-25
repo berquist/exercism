@@ -4,6 +4,8 @@
 
 ;;; Code:
 
+(require 'subr-x)
+
 (defmacro rotate-char-branch (bound)
   `(let ((sc (+ c shift-key)))
      (while (> sc ,bound)

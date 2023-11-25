@@ -6,6 +6,7 @@
 
 (require 'cl-lib)
 (require 'cl-seq)
+(require 'subr-x)
 
 (defun atbash/insert-every (string-to-insert group-size seq)
   (if seq

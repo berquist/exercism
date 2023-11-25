@@ -10,6 +10,10 @@
 (declare-function decode "affine-cipher.el" (phrase key))
 
 
+(ert-deftest encode-single ()
+  (should (equal "x" (encode "y" '(("a" . 5) ("b" . 7))))))
+
+
 (ert-deftest encode-yes ()
   (should (equal "xbt" (encode "yes" '(("a" . 5) ("b" . 7))))))
 
@@ -63,6 +67,10 @@
     (should
      (string=
       "a and m must be coprime." (error-message-string error-data)))))
+
+
+(ert-deftest decode-single ()
+  (should (equal "y" (decode "x" '(("a" . 5) ("b" . 7))))))
 
 
 (ert-deftest decode-exercism ()

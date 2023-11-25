@@ -21,6 +21,7 @@
         (nreverse result))))
 
 (defun alist-get-str (key alist)
+  "Get the value for string KEY from the ALIST."
   (alist-get key alist nil nil #'string=))
 
 (defun quigonjeff/get-factors (number)
@@ -34,16 +35,41 @@ Adapted from https://exercism.org/tracks/emacs-lisp/exercises/perfect-numbers/so
     (cl-remove-duplicates (append low-factors high-factors) :test #'eql)))
 
 (defun affine/are-coprime (x y)
+  "Are the numbers X and Y coprime?
+
+Two numbers are coprime if they do not share any prime factors other than 1."
   (let ((x-factors (quigonjeff/get-factors x))
         (y-factors (quigonjeff/get-factors y)))
     (equal (cl-intersection x-factors y-factors)
            '(1))))
 
+(defun affine/inverse (a n)
+  ;; https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm#Modular_integers
+  (let ((tv 0)
+        (r n)
+        (newt 1)
+        (newr a))
+    (while (not (zerop newr))
+      (let ((quotient (/ r newr))
+            (tmp-newt newt)
+            (tmp-newr newr))
+        (setq newt (- tv (* quotient tmp-newt))
+              newr (- r (* quotient tmp-newr))
+              tv tmp-newt
+              r tmp-newr)))
+    (when (> r 1)
+      (error "a is not invertible"))
+    (when (< tv 0)
+      (setq tv (+ tv n)))
+    tv))
+
 (defun affine/encode-char (a i b m)
+  "Equation for encoding a character via the affine cipher."
   (mod (+ (* a i) b) m))
 
 (defun affine/decode-char (a y b m)
-  (mod (* (/ a 1) (- y b)) m))
+  "Equation for decoding a character via the affine cipher."
+  (mod (* (affine/inverse a m) (- y b)) m))
 
 (defun encode (phrase key)
   (let ((a (alist-get-str "a" key))

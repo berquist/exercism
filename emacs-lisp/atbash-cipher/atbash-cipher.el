@@ -28,7 +28,7 @@
       (let ((result '())
             (len (length seq))
             (list-to-splice (nreverse (string-to-list string-to-insert))))
-        (dotimes (i (length seq))
+        (dotimes (i len)
           (setq result (cons (car seq) result))
           (when (and (zerop (mod (1+ i) group-size)) (< (1+ i) len))
             (setq result (append list-to-splice result)))

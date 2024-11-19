@@ -1,7 +1,8 @@
 import re
+from typing import Dict
 
 
-def count_words(sentence):
+def count_words(sentence: str) -> Dict[str, int]:
     counts = dict()
     cleaned_sentence = re.sub(r"[^'\w]+|(?:\B'\b|\b'\B)|_", " ", sentence.lower())
     for word in cleaned_sentence.split():

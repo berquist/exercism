@@ -1,7 +1,7 @@
-from typing import List
+from typing import Collection
 
 
-def sum_of_multiples(limit: int, multiples: List[int]) -> int:
+def sum_of_multiples(limit: int, multiples: Collection[int]) -> int:
     return sum(
         num
         for num in range(limit)

@@ -8,10 +8,8 @@
 
 (defun run-length-encode (to-encode)
   (let ((input-length (length to-encode)))
-    (cond
-     ((= input-length 0) "")
-     ((= input-length 1) (format "1%s" to-encode))
-     (:else
+    (if (zerop input-length)
+        ""
       ;; Iterate over the characters in the string.
       ;; - If the current character matches the previous character, bump that character's count by 1.
       ;; - If it doesn't, write the count and the character to output.
@@ -24,22 +22,23 @@
              (current-char (nth pos chars)))
         (while (< pos input-length)
           (if (not (eql prev-char current-char))
-              (setq counter-char-pairs (cons (list counter prev-char) counter-char-pairs)
-                    counter 1)
+              (progn
+                (push (list counter prev-char) counter-char-pairs)
+                (setq counter 1))
             (setq counter (1+ counter)))
           (setq prev-char current-char
                 pos (1+ pos)
                 current-char (nth pos chars)))
         ;; Don't forget the last character in the string.
-        (setq counter-char-pairs (cons (list counter prev-char) counter-char-pairs))
+        (push (list counter prev-char) counter-char-pairs)
         (string-join (mapcar
                       (lambda (counter-char-pair)
-                        (let ((num (car counter-char-pair)))
+                        (let ((num (car counter-char-pair))
+                              (char (char-to-string (cadr counter-char-pair))))
                           (if (> num 1)
-                              (concat (number-to-string num)
-                                      (char-to-string (cadr counter-char-pair)))
-                            (char-to-string (cadr counter-char-pair)))))
-                      (reverse counter-char-pairs))))))))
+                              (concat (number-to-string num) char)
+                            char)))
+                      (reverse counter-char-pairs)))))))
 
 (defun char-is-num (char)
   ;; string "0" to "9" as character

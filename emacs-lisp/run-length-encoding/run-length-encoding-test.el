@@ -5,6 +5,8 @@
 ;;; Code:
 
 (load-file "run-length-encoding.el")
+(declare-function run-length-encode "run-length-encoding.el" (to-encode))
+(declare-function run-length-decode "run-length-encoding.el" (to-decode))
 
 (ert-deftest encode-empty-string ()
   "encode an empty string"
@@ -17,6 +19,10 @@
 (ert-deftest encode-string-with-no-single-characters ()
   "encode string with no single characters"
   (should (string= (run-length-encode "AABBBCCCC") "2A3B4C")))
+
+(ert-deftest encode-string-pair ()
+  "encode string with a pair of the same character"
+  (should (string= (run-length-encode "AA") "2A")))
 
 (ert-deftest encode-string-with-single-and-mixed-characters ()
   "encode string with single and mixed characters"
@@ -41,6 +47,10 @@
 (ert-deftest decode-no-single-characters ()
   "decode string with no single characters"
   (should (string= (run-length-decode "2A3B4C") "AABBBCCCC")))
+
+(ert-deftest decode-string-pair ()
+  "decode string with a pair of the same character"
+  (should (string= (run-length-decode "2A") "AA")))
 
 (ert-deftest decode-single-and-repeated-characters ()
   "decode string with single and repeated characters"

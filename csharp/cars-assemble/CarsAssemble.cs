@@ -16,14 +16,10 @@ static class AssemblyLine
         }
         return successRate;
     }
-    
-    public static double ProductionRatePerHour(int speed)
-    {
-        return speed * 221 * SuccessRate(speed);
-    }
 
-    public static int WorkingItemsPerMinute(int speed)
-    {
-        return (int)Math.Floor(ProductionRatePerHour(speed) / 60.0);
-    }
+    private static readonly int _baseProductionRatePerHour = 221;
+    
+    public static double ProductionRatePerHour(int speed) => speed * _baseProductionRatePerHour * SuccessRate(speed);
+
+    public static int WorkingItemsPerMinute(int speed) => (int)Math.Floor(ProductionRatePerHour(speed) / 60.0);
 }

@@ -1,21 +1,18 @@
+// ideas from https://exercism.org/tracks/csharp/exercises/cars-assemble/solutions/kirill9
+
 using System;
 
 static class AssemblyLine
 {
-    public static double SuccessRate(int speed)
+    public static double SuccessRate(int speed) => speed switch
     {
-        var successRate = 0.0;
-        if (speed == 10) {
-            successRate = 0.77;
-        } else if (speed == 9) {
-            successRate = 0.80;
-        } else if (speed >= 5) {
-            successRate = 0.90;
-        } else if (speed >= 1) {
-            successRate = 1.00;
-        }
-        return successRate;
-    }
+        < 1 => 0.0,
+        <= 4 => 1.0,
+        <= 8 => 0.9,
+        9 => 0.8,
+        10 => 0.77,
+        _ => 0.0
+    };
 
     private static readonly int _baseProductionRatePerHour = 221;
     
